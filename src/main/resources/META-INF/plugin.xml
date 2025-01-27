@@ -15,4 +15,15 @@
     <applicationListeners>
         <listener class="com.github.lennypu.ideas2brain.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
     </applicationListeners>
+    <actions>
+        <action id="com.github.lennypu.ideas2brain.action.PopupDialogAction"
+                class="com.github.lennypu.ideas2brain.action.PopupDialogAction" text="pop my brain" description="demo">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action id="com.github.lennypu.ideas2brain.action.Ideas2BrainAction"
+                class="com.github.lennypu.ideas2brain.action.Ideas2BrainAction" text="Ideas2Brain"
+                description="Ideas2Brain">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="CompareTwoFiles"/>
+        </action>
+    </actions>
 </idea-plugin>

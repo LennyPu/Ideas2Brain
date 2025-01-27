@@ -48,6 +48,7 @@ dependencies {
         zipSigner()
         testFramework(TestFrameworkType.Platform)
     }
+    implementation("com.github.javaparser:javaparser-core:3.26.3")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
