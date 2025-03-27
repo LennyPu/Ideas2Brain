@@ -94,7 +94,7 @@ public final class AnkiConnectService {
             
             JsonObject note = new JsonObject();
             note.addProperty("deckName", deckName);
-            note.addProperty("modelName", "Basic");
+            note.addProperty("modelName", "Markdown Basic");
             
             JsonObject fields = new JsonObject();
             fields.addProperty("Front", front);
