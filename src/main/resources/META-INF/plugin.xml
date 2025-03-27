@@ -14,16 +14,10 @@
     </extensions>
 
     <actions>
-        <action id="com.github.lennypu.ideas2brain.action.Ideas2BrainAction"
-                class="com.github.lennypu.ideas2brain.action.Ideas2BrainAction" text="Ideas2Brain"
-                description="Ideas2Brain">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="before" relative-to-action="CompareTwoFiles"/>
-        </action>
-
         <action id="com.github.lennypu.ideas2brain.action.SyncToAnkiAction"
                 class="com.github.lennypu.ideas2brain.action.SyncToAnkiAction" text="Sync to Anki"
                 description="Sync JavaDoc to Anki">
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="com.github.lennypu.ideas2brain.action.Ideas2BrainAction"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="CompareTwoFiles"/>
         </action>
     </actions>
 </idea-plugin>

@@ -21,11 +21,10 @@ import java.io.InputStreamReader;
 public class FileStatusDecorator implements ProjectViewNodeDecorator {
 
     // Load the icons
-    private static final Icon SYNCED_ICON = IconLoader.getIcon("/icons/synced.svg", FileStatusDecorator.class);
-    private static final Icon CLASS_ICON = IconLoader.getIcon("/icons/class.svg", FileStatusDecorator.class);
-    private static final Icon INTERFACE_ICON = IconLoader.getIcon("/icons/interface.svg", FileStatusDecorator.class);
-    private static final Icon ENUM_ICON = IconLoader.getIcon("/icons/enum.svg", FileStatusDecorator.class);
-    private static final Icon ABSTRACT_CLASS_ICON = IconLoader.getIcon("/icons/abstractClass.svg", FileStatusDecorator.class);
+    private static final Icon CLASS_ICON = IconLoader.getIcon("/icons/class/class.svg", FileStatusDecorator.class);
+    private static final Icon INTERFACE_ICON = IconLoader.getIcon("/icons/interface/interface.svg", FileStatusDecorator.class);
+    private static final Icon ENUM_ICON = IconLoader.getIcon("/icons/enum/enum.svg", FileStatusDecorator.class);
+    private static final Icon ABSTRACT_CLASS_ICON = IconLoader.getIcon("/icons/classAbstract/classAbstract.svg", FileStatusDecorator.class);
 
     @Override
     public void decorate(@NotNull ProjectViewNode<?> node, @NotNull PresentationData data) {
@@ -53,20 +52,24 @@ public class FileStatusDecorator implements ProjectViewNodeDecorator {
             if (icon != null) {
                 data.setIcon(icon);
             }
-        } else if (status == FileStatusService.FileStatus.SYNCED) {
-            data.setIcon(SYNCED_ICON);
         }
 
-        // Add status text to the presentation
+        // Add status text to the presentation without changing text attributes
+        // This preserves any formatting applied by other plugins like Git
+        String currentName = data.getPresentableText();
+        if (currentName == null) {
+            currentName = file.getNameWithoutExtension();
+        }
+        
         switch (status) {
             case SYNCED:
-                data.addText(" [Synced]", SimpleTextAttributes.GRAY_ATTRIBUTES);
+                data.setPresentableText(currentName + " [Synced]");
                 break;
             case MODIFIED_AFTER_SYNC:
-                data.addText(" [Modified]", SimpleTextAttributes.GRAY_ITALIC_ATTRIBUTES);
+                data.setPresentableText(currentName + " [Modified]");
                 break;
             case ERROR:
-                data.addText(" [Error]", SimpleTextAttributes.ERROR_ATTRIBUTES);
+                data.setPresentableText(currentName + " [Error]");
                 break;
             case NOT_SYNCED:
                 // No decoration for NOT_SYNCED
@@ -105,10 +108,10 @@ public class FileStatusDecorator implements ProjectViewNodeDecorator {
                 return CLASS_ICON;
             }
             
-            return SYNCED_ICON;
+            return null;
         } catch (Exception e) {
             // If anything goes wrong, fall back to the default synced icon
-            return SYNCED_ICON;
+            return null;
         }
     }
     
