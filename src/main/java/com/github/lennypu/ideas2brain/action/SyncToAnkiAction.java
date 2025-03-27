@@ -143,8 +143,7 @@ public class SyncToAnkiAction extends AnAction {
         // Convert path separators to "::" for Anki deck hierarchy
         String deckPath = relativePath.toString().replace('/', ':').replace('\\', ':');
 
-        // Add "Ideas2025" as the root deck
-        return "Ideas2025::" + deckPath;
+        return deckPath;
     }
 
     /**
