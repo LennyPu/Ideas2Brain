@@ -56,25 +56,25 @@ public class FileStatusDecorator implements ProjectViewNodeDecorator {
 
         // Add status text to the presentation without changing text attributes
         // This preserves any formatting applied by other plugins like Git
-        String currentName = data.getPresentableText();
-        if (currentName == null) {
-            currentName = file.getNameWithoutExtension();
-        }
-        
-        switch (status) {
-            case SYNCED:
-                data.setPresentableText(currentName + " [Synced]");
-                break;
-            case MODIFIED_AFTER_SYNC:
-                data.setPresentableText(currentName + " [Modified]");
-                break;
-            case ERROR:
-                data.setPresentableText(currentName + " [Error]");
-                break;
-            case NOT_SYNCED:
-                // No decoration for NOT_SYNCED
-                break;
-        }
+//        String currentName = data.getPresentableText();
+//        if (currentName == null) {
+//            currentName = file.getNameWithoutExtension();
+//        }
+//
+//        switch (status) {
+//            case SYNCED:
+//                data.setPresentableText(currentName + " [Synced]");
+//                break;
+//            case MODIFIED_AFTER_SYNC:
+//                data.setPresentableText(currentName + " [Modified]");
+//                break;
+//            case ERROR:
+//                data.setPresentableText(currentName + " [Error]");
+//                break;
+//            case NOT_SYNCED:
+//                // No decoration for NOT_SYNCED
+//                break;
+//        }
     }
 
     /**
