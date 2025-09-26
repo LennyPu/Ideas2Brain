@@ -1,7 +1,7 @@
 package com.github.lennypu.ideas2brain.action;
 
 import com.github.lennypu.ideas2brain.services.AnkiConnectService;
-import com.github.lennypu.ideas2brain.services.FileStatusService;
+import com.github.lennypu.ideas2brain.services.DatabaseFileStatusService;
 import com.github.lennypu.ideas2brain.utils.JavaDoc2MarkDownUtil;
 import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
@@ -38,7 +38,7 @@ public class SyncToAnkiAction extends AnAction {
 
         // Get the AnkiConnectService as an application-level service
         AnkiConnectService ankiConnectService = ApplicationManager.getApplication().getService(AnkiConnectService.class);
-        FileStatusService fileStatusService = FileStatusService.getInstance(project);
+        DatabaseFileStatusService fileStatusService = DatabaseFileStatusService.getInstance(project);
 
         // Check if AnkiConnect is available
         if (!ankiConnectService.isAnkiConnectAvailable()) {
@@ -62,7 +62,7 @@ public class SyncToAnkiAction extends AnAction {
                 // Convert JavaDoc to Markdown
                 String markdown = JavaDoc2MarkDownUtil.JavaFileStream2MarkDownString(file.getInputStream());
                 if (markdown == null || markdown.isEmpty()) {
-                    fileStatusService.setFileStatus(file, FileStatusService.FileStatus.ERROR);
+                    fileStatusService.setFileStatus(file, DatabaseFileStatusService.FileStatus.ERROR);
                     errorCount++;
                     continue;
                 }
@@ -83,11 +83,11 @@ public class SyncToAnkiAction extends AnAction {
                     fileStatusService.markAsSynced(file, noteId);
                     successCount++;
                 } else {
-                    fileStatusService.setFileStatus(file, FileStatusService.FileStatus.ERROR);
+                    fileStatusService.setFileStatus(file, DatabaseFileStatusService.FileStatus.ERROR);
                     errorCount++;
                 }
             } catch (IOException ex) {
-                fileStatusService.setFileStatus(file, FileStatusService.FileStatus.ERROR);
+                fileStatusService.setFileStatus(file, DatabaseFileStatusService.FileStatus.ERROR);
                 errorCount++;
             }
         }
@@ -112,10 +112,10 @@ public class SyncToAnkiAction extends AnAction {
         boolean enabled = project != null && selectedFiles != null && selectedFiles.length > 0;
 
         if (enabled) {
-            FileStatusService fileStatusService = FileStatusService.getInstance(project);
+            DatabaseFileStatusService fileStatusService = DatabaseFileStatusService.getInstance(project);
             enabled = Arrays.stream(selectedFiles)
                     .anyMatch(file -> fileStatusService.isJavaOrKotlinFile(file) &&
-                            fileStatusService.getFileStatus(file) != FileStatusService.FileStatus.SYNCED);
+                            fileStatusService.getFileStatus(file) != DatabaseFileStatusService.FileStatus.SYNCED);
         }
 
         e.getPresentation().setEnabledAndVisible(enabled);

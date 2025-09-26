@@ -13,6 +13,11 @@
         <projectViewNodeDecorator implementation="com.github.lennypu.ideas2brain.ui.FileStatusDecorator"/>
     </extensions>
 
+    <applicationListeners>
+        <listener class="com.github.lennypu.ideas2brain.listeners.FileChangeListener"
+                  topic="com.intellij.openapi.vfs.VirtualFileListener"/>
+    </applicationListeners>
+
     <actions>
         <action id="com.github.lennypu.ideas2brain.action.SyncToAnkiAction"
                 class="com.github.lennypu.ideas2brain.action.SyncToAnkiAction" text="Sync to Anki"

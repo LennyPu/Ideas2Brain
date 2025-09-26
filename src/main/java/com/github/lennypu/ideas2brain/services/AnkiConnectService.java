@@ -132,6 +132,96 @@ public final class AnkiConnectService {
     }
     
     /**
+     * Deletes a note from Anki
+     * 
+     * @param noteId The ID of the note to delete
+     * @return true if the note was deleted successfully
+     */
+    public boolean deleteNote(String noteId) {
+        try {
+            JsonArray noteIds = new JsonArray();
+            noteIds.add(noteId);
+            
+            JsonObject params = new JsonObject();
+            params.add("notes", noteIds);
+            
+            JsonObject response = makeRequest("deleteNotes", params);
+            return response != null && response.has("result");
+        } catch (IOException e) {
+            LOG.warn("Failed to delete note", e);
+            return false;
+        }
+    }
+    
+    /**
+     * Updates the front field of a note
+     * 
+     * @param noteId The ID of the note to update
+     * @param newFront The new front content
+     * @return true if the note was updated successfully
+     */
+    public boolean updateNoteFront(String noteId, String newFront) {
+        try {
+            JsonObject note = new JsonObject();
+            note.addProperty("id", noteId);
+            
+            JsonObject fields = new JsonObject();
+            fields.addProperty("Front", newFront);
+            note.add("fields", fields);
+            
+            JsonObject params = new JsonObject();
+            params.add("note", note);
+            
+            JsonObject response = makeRequest("updateNoteFields", params);
+            return response != null && response.has("result");
+        } catch (IOException e) {
+            LOG.warn("Failed to update note front", e);
+            return false;
+        }
+    }
+    
+    /**
+     * Updates the deck and tags of a note
+     * 
+     * @param noteId The ID of the note to update
+     * @param newDeckName The new deck name
+     * @param newTags The new tags
+     * @return true if the note was updated successfully
+     */
+    public boolean updateNoteDeckAndTags(String noteId, String newDeckName, List<String> newTags) {
+        try {
+            // First, move the note to the new deck
+            JsonArray noteIds = new JsonArray();
+            noteIds.add(noteId);
+            
+            JsonObject changeDeckParams = new JsonObject();
+            changeDeckParams.add("notes", noteIds);
+            changeDeckParams.addProperty("deck", newDeckName);
+            
+            JsonObject changeDeckResponse = makeRequest("changeDeck", changeDeckParams);
+            if (changeDeckResponse == null || !changeDeckResponse.has("result")) {
+                return false;
+            }
+            
+            // Then, update the tags
+            JsonArray tagsArray = new JsonArray();
+            newTags.forEach(tagsArray::add);
+            tagsArray.add("Ideas2Brain");
+            
+            JsonObject updateTagsParams = new JsonObject();
+            updateTagsParams.add("notes", noteIds);
+            updateTagsParams.add("tags", tagsArray);
+            
+            JsonObject updateTagsResponse = makeRequest("updateNoteTags", updateTagsParams);
+            return updateTagsResponse != null && updateTagsResponse.has("result");
+            
+        } catch (IOException e) {
+            LOG.warn("Failed to update note deck and tags", e);
+            return false;
+        }
+    }
+    
+    /**
      * Makes a request to AnkiConnect
      * 
      * @param action The action to perform

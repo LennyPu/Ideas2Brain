@@ -1,6 +1,6 @@
 package com.github.lennypu.ideas2brain.ui;
 
-import com.github.lennypu.ideas2brain.services.FileStatusService;
+import com.github.lennypu.ideas2brain.services.DatabaseFileStatusService;
 import com.intellij.ide.projectView.PresentationData;
 import com.intellij.ide.projectView.ProjectViewNode;
 import com.intellij.ide.projectView.ProjectViewNodeDecorator;
@@ -38,15 +38,15 @@ public class FileStatusDecorator implements ProjectViewNodeDecorator {
             return;
         }
 
-        FileStatusService fileStatusService = FileStatusService.getInstance(project);
+        DatabaseFileStatusService fileStatusService = DatabaseFileStatusService.getInstance(project);
         if (!fileStatusService.isJavaOrKotlinFile(file)) {
             return;
         }
 
-        FileStatusService.FileStatus status = fileStatusService.getFileStatus(file);
+        DatabaseFileStatusService.FileStatus status = fileStatusService.getFileStatus(file);
 
         // Only change the icon if the file has been synced and it's a Java file
-        if (status == FileStatusService.FileStatus.SYNCED && "java".equals(file.getExtension())) {
+        if (status == DatabaseFileStatusService.FileStatus.SYNCED && "java".equals(file.getExtension())) {
             // Get the appropriate icon based on the Java file type
             Icon icon = getSyncedIconForJavaFile(file);
             if (icon != null) {

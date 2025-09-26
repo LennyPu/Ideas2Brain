@@ -49,6 +49,7 @@ dependencies {
         testFramework(TestFrameworkType.Platform)
     }
     implementation("com.github.javaparser:javaparser-core:3.26.3")
+    implementation("com.h2database:h2:2.2.224")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
